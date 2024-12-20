@@ -6,22 +6,33 @@ using namespace std;
 void makeGuess(int target_num);
 int numberGenerator();
 
+// Declare global variable for number of attempts
+int attempts = 1;
+
 void testGuess(int user_guess, int target_num) {
     // Check whether the guess is correct
     if (user_guess == target_num) {
         cout << "You got the number good job!" <<endl;
+        cout << "It took you " << attempts << " tries!" << endl;
     } else if (user_guess > target_num) {
         cout << "Lower! " << endl;
+        attempts++;
         makeGuess(target_num);
     } else {
         cout << "Higher! " << endl;
+        attempts++;
         makeGuess(target_num);
     };
 }
 
 void makeGuess(int target_num) {
     int user_guess;
-    cin >> user_guess; // Get user's guess from the keyboard
+    while (!(cin >> user_guess)) { // If the input from the user is not an integer
+    cout << "Invalid input. Please enter an integer." <<endl;
+    cout << "Pick a number between 1 and 100: ";
+    cin.clear(); // Clear error flags in the input stream that were set due to the invalid input. This is necessary to allow further input from the user
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // remove any remaining invalid characters from the input buffer. It essentially discards everything up to the next newline character (\n), which is usually generated when the user presses Enter.
+}
 
     testGuess(user_guess, target_num);
 }
